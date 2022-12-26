@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'package:carogame/settings/settings_screen.dart';
-import 'package:carogame/style/palette.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
 import '../ai/ai_opponent.dart';
@@ -16,6 +15,7 @@ import '../settings/custom_name_dialog.dart';
 import '../settings/settings.dart';
 import '../style/confetti.dart';
 import '../style/delayed_appear.dart';
+import '../style/palette.dart';
 import '../view/levels.dart';
 import 'game_board.dart';
 import 'hint_snackbar.dart';
@@ -47,6 +47,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
+    final palette = context.watch<Palette>();
 
     return MultiProvider(
       providers: [
@@ -72,7 +73,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
       child: IgnorePointer(
         ignoring: _duringCelebration,
         child: Scaffold(
-          backgroundColor: Palette.backgroundPlaySession,
+          backgroundColor: palette.backgroundPlaySession,
           body: Stack(
             children: [
               ValueListenableBuilder<String>(
@@ -81,7 +82,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   final textStyle = DefaultTextStyle.of(context).style.copyWith(
                         fontFamily: 'Permanent Marker',
                         fontSize: 24,
-                        color: Palette.redPen,
+                        color: palette.redPen,
                       );
 
                   return _ResponsivePlaySessionScreen(
@@ -146,7 +147,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                               context.read<AudioController>();
                           audioController.playSfx(SfxType.buttonTap);
 
-                          Navigator.of(context).pop();
+                          GoRouter.of(context).pop();
                         },
                         child: Tooltip(
                           message: 'Back',
@@ -162,8 +163,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                               context.read<AudioController>();
                           audioController.playSfx(SfxType.buttonTap);
 
-                          Navigator.pushNamed(
-                              context, SettingsScreen.routeName);
+                          GoRouter.of(context).push('/settings');
                         },
                         child: Tooltip(
                           message: 'Settings',
@@ -199,6 +199,13 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     _log.info('$opponent enters the fray');
 
     _startOfPlay = DateTime.now();
+
+    // final adsRemoved =
+    //     context.read<InAppPurchaseController?>()?.adRemoval.active ?? false;
+    // if (!adsRemoved) {
+    //   final adsController = context.read<AdsController?>();
+    //   adsController?.preloadAd();
+    // }
   }
 
   void _aiOpponentWon() {
@@ -246,8 +253,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     await Future.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    // to do
-    // GoRouter.of(context).go('/play/won', extra: {'score': score});
+    GoRouter.of(context).go('/play/won', extra: {'score': score});
   }
 }
 

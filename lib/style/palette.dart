@@ -19,15 +19,15 @@ import 'package:flutter/material.dart';
 /// we could allow players to customize colors, for example,
 /// or even get the colors from the network.
 class Palette {
-  static Color pen = const Color(0xff1d75fb);
-  static Color darkPen = const Color(0xFF0050bc);
-  static Color redPen = const Color(0xFFd10841);
-  static Color inkFullOpacity = const Color(0xff352b42);
-  static Color ink = const Color(0xee352b42);
-  static Color backgroundMain = const Color(0xffffffd1);
-  static Color backgroundLevelSelection = const Color(0xffa2dcc7);
-  static Color backgroundPlaySession = const Color(0xffffebb5);
-  static Color background4 = const Color(0xffffd7ff);
-  static Color backgroundSettings = const Color(0xffbfc8e3);
-  static Color trueWhite = const Color(0xffffffff);
+  Color get pen => const Color(0xff1d75fb);
+  Color get darkPen => const Color(0xFF0050bc);
+  Color get redPen => const Color(0xFFd10841);
+  Color get inkFullOpacity => const Color(0xff352b42);
+  Color get ink => const Color(0xee352b42);
+  Color get backgroundMain => const Color(0xffffffd1);
+  Color get backgroundLevelSelection => const Color(0xffa2dcc7);
+  Color get backgroundPlaySession => const Color(0xffffebb5);
+  Color get background4 => const Color(0xffffd7ff);
+  Color get backgroundSettings => const Color(0xffbfc8e3);
+  Color get trueWhite => const Color(0xffffffff);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../style/palette.dart';
 
 void showHintSnackbar(BuildContext context) {
@@ -6,19 +7,20 @@ void showHintSnackbar(BuildContext context) {
   _currentHintIndex++;
   _currentHintIndex = _currentHintIndex % hints.length;
 
+  final palette = context.read<Palette>();
   final text = RichText(
     text: TextSpan(
       children: [
         TextSpan(
           text: 'Hint: ',
           style: TextStyle(
-            color: Palette.redPen,
+            color: palette.redPen,
           ),
         ),
         TextSpan(
           text: hint,
           style: TextStyle(
-            color: Palette.ink,
+            color: palette.ink,
           ),
         ),
       ],
@@ -33,7 +35,7 @@ void showHintSnackbar(BuildContext context) {
       margin: const EdgeInsets.only(bottom: 30, left: 24, right: 24),
       behavior: SnackBarBehavior.floating,
       duration: duration,
-      backgroundColor: Palette.backgroundLevelSelection,
+      backgroundColor: palette.backgroundLevelSelection,
       dismissDirection: DismissDirection.horizontal,
     ),
   );

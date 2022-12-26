@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../style/palette.dart';
 
 class RoughGrid extends StatelessWidget {
@@ -10,7 +11,8 @@ class RoughGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lineColor = Palette.ink;
+    final palette = context.watch<Palette>();
+    final lineColor = palette.ink;
 
     return Stack(
       fit: StackFit.expand,

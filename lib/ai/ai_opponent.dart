@@ -1,4 +1,6 @@
-
+import '../game_internals/board_setting.dart';
+import '../game_internals/board_state.dart';
+import '../game_internals/tile.dart';
 
 abstract class AiOpponent {
   final BoardSetting setting;

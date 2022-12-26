@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../player_progress/player_progress.dart';
 import '../style/palette.dart';
 import '../style/rough/button.dart';
 import '../view/responsive_screen.dart';
@@ -8,16 +11,16 @@ import 'settings.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-  static const routeName = '/settings';
 
   static const _gap = SizedBox(height: 60);
 
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsController>();
+    final palette = context.watch<Palette>();
 
     return Scaffold(
-      backgroundColor: Palette.backgroundSettings,
+      backgroundColor: palette.backgroundSettings,
       body: ResponsiveScreen(
         squarishMainArea: ListView(
           children: [
@@ -80,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
               'Reset progress',
               const Icon(Icons.delete),
               onSelected: () {
-                // context.read<PlayerProgress>().reset();
+                context.read<PlayerProgress>().reset();
 
                 final messenger = ScaffoldMessenger.of(context);
                 messenger.clearSnackBars();
@@ -99,9 +102,9 @@ class SettingsScreen extends StatelessWidget {
         ),
         rectangularMenuArea: RoughButton(
           onTap: () {
-            // GoRouter.of(context).pop();
+            GoRouter.of(context).pop();
           },
-          textColor: Palette.ink,
+          textColor: palette.ink,
           child: const Text('Back'),
         ),
       ),

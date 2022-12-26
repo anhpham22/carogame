@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -77,6 +76,7 @@ class _BoardTileState extends State<BoardTile>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
     final owner =
         context.select((BoardState state) => state.whoIsAt(widget.tile));
     final playerSide =
@@ -86,8 +86,8 @@ class _BoardTileState extends State<BoardTile>
 
     Widget representation;
 
-    var color = owner == playerSide ? Palette.ink : Palette.ink;
-    color = isWinning ? Palette.redPen : color;
+    var color = owner == playerSide ? palette.ink : palette.ink;
+    color = isWinning ? palette.redPen : color;
     final progress =
         CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
     switch (owner) {

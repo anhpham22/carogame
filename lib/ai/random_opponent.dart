@@ -1,8 +1,7 @@
 import 'dart:math';
-
-import 'package:tictactoe/src/ai/ai_opponent.dart';
-import 'package:tictactoe/src/game_internals/board_state.dart';
-import 'package:tictactoe/src/game_internals/tile.dart';
+import '../game_internals/board_state.dart';
+import '../game_internals/tile.dart';
+import 'ai_opponent.dart';
 
 class RandomOpponent extends AiOpponent {
   const RandomOpponent(

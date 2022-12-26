@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../audio/audio_controller.dart';
@@ -40,6 +39,8 @@ class RoughButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
+
     return InkResponse(
       onTap: onTap == null ? null : () => _handleTap(context),
       child: Stack(
@@ -53,7 +54,7 @@ class RoughButton extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'Permanent Marker',
               fontSize: fontSize,
-              color: onTap != null ? textColor : Palette.ink,
+              color: onTap != null ? textColor : palette.ink,
             ),
             child: child,
           ),
