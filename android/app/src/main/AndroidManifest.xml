@@ -30,5 +30,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Google Play Games -->
+       <meta-data
+           android:name="com.google.android.gms.games.APP_ID"
+           android:value="1:64372665663:android:6dc7d21be9c59ed61c778a" />
+       <meta-data
+           android:name="com.google.android.gms.version"
+           android:value="@integer/google_play_services_version" />
     </application>
 </manifest>

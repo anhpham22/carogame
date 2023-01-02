@@ -1,9 +1,16 @@
+import 'dart:io';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'app_lifecycle/app_lifecycle.dart';
 import 'audio/audio_controller.dart';
+import 'crashlytics/crashlytics.dart';
+import 'firebase_options.dart';
 import 'games_services/games_services.dart';
 import 'games_services/score.dart';
 import 'play_session/play_session_screen.dart';
@@ -25,30 +32,60 @@ import 'package:firebase_core/firebase_core.dart';
 
 // import 'firebase_options.dart';
 
-// Future<void> main() async {
-//   FirebaseCrashlytics? crashlytics;
-//   if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
-//     try {
-//       WidgetsFlutterBinding.ensureInitialized();
-//       // await Firebase.initializeApp(
-//       //   options: DefaultFirebaseOptions.currentPlatform,
-//       // );
-//       crashlytics = FirebaseCrashlytics.instance;
-//     } catch (e) {
-//       debugPrint("Firebase couldn't be initialized: $e");
-//     }
-//   }
+Future<void> main() async {
+  FirebaseCrashlytics? crashlytics;
+  if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      crashlytics = FirebaseCrashlytics.instance;
+    } catch (e) {
+      debugPrint("Firebase couldn't be initialized: $e");
+    }
+  }
 
-//   await guardWithCrashlytics(
-//     guardedMain,
-//     crashlytics: crashlytics,
+  await guardWithCrashlytics(
+    guardedMain,
+    crashlytics: crashlytics,
+  );
+}
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   _log.info('Going full screen');
+//   await Firebase.initializeApp();
+//   GamesServicesController? gamesServicesController;
+//   runApp(
+//     MyApp(
+//       settingsPersistence: LocalStorageSettingsPersistence(),
+//       playerProgressPersistence: LocalStoragePlayerProgressPersistence(),
+//       // inAppPurchaseController: inAppPurchaseController,
+//       // adsController: adsController,
+//       gamesServicesController: gamesServicesController,
+//     ),
 //   );
 // }
-void main() async {
+/// Without logging and crash reporting, this would be `void main()`.
+void guardedMain() {
+  // We ensure Flutter binding is initialized here. Otherwise, calls to
+  // SystemChrome will not work, for example. This is a no-op if the binding
+  // is already initialized.
   WidgetsFlutterBinding.ensureInitialized();
+
   _log.info('Going full screen');
-  await Firebase.initializeApp();
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+  );
+
   GamesServicesController? gamesServicesController;
+  if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
+    gamesServicesController = GamesServicesController()
+      // Attempt to log the player in.
+      ..initialize();
+  }
+
   runApp(
     MyApp(
       settingsPersistence: LocalStorageSettingsPersistence(),
